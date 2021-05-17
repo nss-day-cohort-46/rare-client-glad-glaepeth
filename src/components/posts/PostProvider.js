@@ -8,13 +8,13 @@ export const PostProvider = (props) => {
     const [posts, setPosts] = useState([])
 
     const getPosts = () => {
-        return fetch("http://localhost:8088/posts")
+        return fetch("http://localhost:8000/posts")
             .then(res => res.json())
             .then(setPosts)
     }
 
     const addPost = postObj => {
-        return fetch("http://localhost:8088/posts", {
+        return fetch("http://localhost:8000/posts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -30,26 +30,26 @@ export const PostProvider = (props) => {
 
     //function to get post by ID
     const getPostById = (id) => {
-        return fetch(`http://localhost:8088/posts/${id}`)
+        return fetch(`http://localhost:8000/posts/${id}`)
             .then(res => res.json())
     }
 
     //get post by USER id
     const getPostsByUserId = (id) => {
-        return fetch(`http://localhost:8088/posts?user=${id}`)
+        return fetch(`http://localhost:8000/posts?user=${id}`)
             .then(res => res.json())
     }
 
     //function to delete a post
     const deletePost = postId => {
-        return fetch(`http://localhost:8088/posts/${postId}`, {
+        return fetch(`http://localhost:8000/posts/${postId}`, {
             method: "DELETE"
         })
             .then(getPosts)
     }
 
     const updatePost = post => {
-        return fetch(`http://localhost:8088/posts/${post.id}`, {
+        return fetch(`http://localhost:8000/posts/${post.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
