@@ -8,13 +8,13 @@ export const SubscriptionProvider = (props) => {
     const [subscriptions, setSubscriptions] = useState([])
 
     const getSubscriptions = () => {
-        return fetch("http://localhost:8088/subscriptions")
+        return fetch("http://localhost:8000/subscriptions")
         .then(res => res.json())
         .then(setSubscriptions)
     }
 
     const addSubscription = subscriptionObj => {
-        return fetch("http://localhost:8088/subscriptions", {
+        return fetch("http://localhost:8000/subscriptions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -26,20 +26,20 @@ export const SubscriptionProvider = (props) => {
 
     //function to get subscription by ID
     const getSubscriptionById = (id) => {
-        return fetch(`http://localhost:8088/subscriptions/${id}`)
+        return fetch(`http://localhost:8000/subscriptions/${id}`)
             .then(res => res.json())
     }
 
     //function to delete a subscription
     const deleteSubscription = subscriptionId => {
-        return fetch(`http://localhost:8088/subscriptions/${subscriptionId}`, {
+        return fetch(`http://localhost:8000/subscriptions/${subscriptionId}`, {
             method: "DELETE"
         })
             .then(getSubscriptions)
     }
 
     const updateSubscription = subscription => {
-        return fetch(`http://localhost:8088/subscriptions/${subscription.id}`, {
+        return fetch(`http://localhost:8000/subscriptions/${subscription.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

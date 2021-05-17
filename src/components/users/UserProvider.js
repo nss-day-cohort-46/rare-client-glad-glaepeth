@@ -8,13 +8,13 @@ export const UserProvider = (props) => {
     const [users, setUsers] = useState([])
 
     const getUsers = () => {
-        return fetch("http://localhost:8088/users")
+        return fetch("http://localhost:8000/users")
         .then(res => res.json())
         .then(setUsers)
     }
 
     const addUser = userObj => {
-        return fetch("http://localhost:8088/users", {
+        return fetch("http://localhost:8000/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -26,20 +26,20 @@ export const UserProvider = (props) => {
 
     //function to get user by ID
     const getUserById = (id) => {
-        return fetch(`http://localhost:8088/users/${id}`)
+        return fetch(`http://localhost:8000/users/${id}`)
             .then(res => res.json())
     }
 
     //function to delete a user
     const deleteUser = userId => {
-        return fetch(`http://localhost:8088/users/${userId}`, {
+        return fetch(`http://localhost:8000/users/${userId}`, {
             method: "DELETE"
         })
             .then(getUsers)
     }
 
     const updateUser = user => {
-        return fetch(`http://localhost:8088/users/${user.id}`, {
+        return fetch(`http://localhost:8000/users/${user.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

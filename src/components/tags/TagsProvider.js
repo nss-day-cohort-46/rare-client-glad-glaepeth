@@ -9,13 +9,13 @@ export const TagsProvider = (props) => {
     const [ searchTerms, setSearchTerms ] = useState("")
 
     const getTags = () => {
-        return fetch("http://localhost:8088/tags")
+        return fetch("http://localhost:8000/tags")
         .then(res => res.json())
         .then(setTags)
     }
 
     const addTag = tagObj => {
-        return fetch("http://localhost:8088/tags", {
+        return fetch("http://localhost:8000/tags", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -27,20 +27,20 @@ export const TagsProvider = (props) => {
 
     //function to get tag by ID
     const getTagById = (id) => {
-        return fetch(`http://localhost:8088/tags/${id}`)
+        return fetch(`http://localhost:8000/tags/${id}`)
             .then(res => res.json())
     }
 
     //function to delete a tag
     const deleteTag = tagId => {
-        return fetch(`http://localhost:8088/tags/${tagId}`, {
+        return fetch(`http://localhost:8000/tags/${tagId}`, {
             method: "DELETE"
         })
             .then(getTags)
     }
 
     const updateTag = tag => {
-        return fetch(`http://localhost:8088/tags/${tag.id}`, {
+        return fetch(`http://localhost:8000/tags/${tag.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
@@ -51,7 +51,7 @@ export const TagsProvider = (props) => {
       }
 
     const getPostTags = () => {
-        return fetch("http://localhost:8088/post_tags")
+        return fetch("http://localhost:8000/post_tags")
         .then(res => res.json())
     }
     
