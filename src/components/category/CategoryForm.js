@@ -48,7 +48,7 @@ export const CategoryForm = () => {
 
     return (
         <section className="category_form">
-            <form className="catgoryForm">
+            <form className="categoryForm">
                 <h2>{categoryId ? "Edit Category" : "Create Category"}</h2>
                 <fieldset className="form">
                     <div className="form-group">
