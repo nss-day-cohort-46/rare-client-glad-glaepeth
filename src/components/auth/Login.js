@@ -10,7 +10,7 @@ export const Login = () => {
     const history = useHistory()
 
     const handleLogin = (e) => {
-        
+
 
         e.preventDefault()
 
@@ -28,7 +28,7 @@ export const Login = () => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid) {
-                    localStorage.setItem("rare_user_id", res.token )
+                    localStorage.setItem("rare_user_id", res.token)
                     history.push("/")
                 }
                 else {
@@ -56,7 +56,7 @@ export const Login = () => {
                         <input ref={password} type="password" id="password" className="form-control" defaultValue="me" placeholder="Password" required />
                     </fieldset>
                     <fieldset style={{
-                        textAlign:"center"
+                        textAlign: "center"
                     }}>
                         <button className="btn btn-1 btn-sep icon-send" type="submit">Sign In</button>
                     </fieldset>
