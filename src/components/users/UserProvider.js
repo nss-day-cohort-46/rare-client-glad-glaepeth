@@ -8,10 +8,15 @@ export const UserProvider = (props) => {
     const [users, setUsers] = useState([])
 
     const getUsers = () => {
-        return fetch("http://localhost:8000/users")
+        return fetch("http://localhost:8000/users", {
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+        }
+    })
         .then(res => res.json())
         .then(setUsers)
-    }
+    
+}
 
     const addUser = userObj => {
         return fetch("http://localhost:8000/users", {
@@ -42,6 +47,7 @@ export const UserProvider = (props) => {
         return fetch(`http://localhost:8000/users/${user.id}`, {
           method: "PUT",
           headers: {
+            "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify(user)
