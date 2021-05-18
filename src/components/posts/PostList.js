@@ -99,14 +99,14 @@ export const PostList = () => {
                     })
                 }
             </div>
-            <div className="tags">
+            {/* <div className="tags">
                 <h3> Tags: </h3>
                 {tags.map(tag => {
                   return <button key={tag.id} id={`tagBtn--${tag.id}`} onClick={e => {
                     handleTagFilter(e)
                   }}>{tag.label}</button>
                 })}
-            </div>
+            </div> */}
         </>
     )
 }

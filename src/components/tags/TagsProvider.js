@@ -9,7 +9,11 @@ export const TagsProvider = (props) => {
     const [ searchTerms, setSearchTerms ] = useState("")
 
     const getTags = () => {
-        return fetch("http://localhost:8000/tags")
+        return fetch("http://localhost:8000/tags",{
+            headers: {
+                "Authorization": `token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
         .then(res => res.json())
         .then(setTags)
     }
@@ -18,6 +22,7 @@ export const TagsProvider = (props) => {
         return fetch("http://localhost:8000/tags", {
             method: "POST",
             headers: {
+                "Authorization": `token ${localStorage.getItem("rare_user_id")}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(tagObj)
