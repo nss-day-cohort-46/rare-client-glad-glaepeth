@@ -21,7 +21,8 @@ export const CategoryProvider = (props) => {
         return fetch("http://localhost:8000/categories", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             },
             body: JSON.stringify(categoryObj)
         })
@@ -46,7 +47,8 @@ export const CategoryProvider = (props) => {
         return fetch(`http://localhost:8000/categories/${category.id}`, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
           },
           body: JSON.stringify(category)
         })
