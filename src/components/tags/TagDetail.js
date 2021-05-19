@@ -32,18 +32,32 @@ export const TagDetail = () => {
             })
     }, [])
 
+    // checks if user is admin => lets them edit/delete tags
     return (
         <>
-            <section className="tag">
-                <div className="tagLabel">Tag: {tag?.label}</div>
-                <button className="btn btn-primary" onClick={confirmDelete}>Delete Tag</button>
-                <button className="btn btn-primary" onClick={() => { history.push(`/tags/edit/${tag?.id}`) }}>Edit</button>
-            </section>
+            {
+                localStorage.getItem("admin") === "true"
 
-            <dialog open={deleteModalOpen}>{`Are you sure you want to delete ${tag?.label}?`}
-                <button className="confirmDeleteButton" onClick={handleDelete}> Yes </button>
-                <button className="closeModalButton" onClick={() => setDeleteModalOpen(false)}> X </button>
-            </dialog>
+                ?
+                
+                <section className="tag">
+                    <div className="tagLabel">Tag: {tag?.label}</div>
+                    <button className="btn btn-primary" onClick={confirmDelete}>Delete Tag</button>
+                    <button className="btn btn-primary" onClick={() => { history.push(`/tags/edit/${tag?.id}`) }}>Edit</button>
+                    <dialog open={deleteModalOpen}>{`Are you sure you want to delete ${tag?.label}?`}
+                        <button className="confirmDeleteButton" onClick={handleDelete}> Yes </button>
+                        <button className="closeModalButton" onClick={() => setDeleteModalOpen(false)}> X </button>
+                    </dialog>
+                </section>
+
+
+                :
+
+                <dialog open={true}>{`oops! you do not have admin access`}
+                        <button className="return" onClick={() => {history.push("/tags")}}> Return to tags </button>
+                </dialog>
+
+            }
         </>
     )
 }
