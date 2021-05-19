@@ -31,7 +31,11 @@ export const CategoryProvider = (props) => {
 
     //function to get category by ID
     const getCategoryById = (id) => {
-        return fetch(`http://localhost:8000/categories/${id}`)
+        return fetch(`http://localhost:8000/categories/${id}`,{
+            headers: {
+                "Authorization": `token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
             .then(res => res.json())
     }
 
