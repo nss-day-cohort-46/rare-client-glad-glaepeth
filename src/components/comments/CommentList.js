@@ -27,7 +27,7 @@ export const CommentList = () => {
     }, [])
   
     
-    const commentsFiltered = comments.filter( c => c.post_id === parseInt(postId) )
+    const commentsFiltered = comments.filter( c => c.post.id === parseInt(postId) )
     
 
     
@@ -42,8 +42,8 @@ export const CommentList = () => {
             <div className="comments">
                 {
                     commentsSorted.map(commentObject => {
-                      
-                        const author = users.find(u => parseInt(u.id) === parseInt(commentObject.author_id))
+                        
+                        const author = users.find(u => parseInt(u.id) === parseInt(commentObject.author.id))
 
                         return <CommentCard key={commentObject.id} commentInstance={commentObject} 
                         commentAuthor = {author}

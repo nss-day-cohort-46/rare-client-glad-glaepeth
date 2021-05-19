@@ -18,7 +18,7 @@ export const CommentForm = () => {
     const [comment, setComment] = useState({
         author_id: parseInt(localStorage.getItem("rare_user_id")),
         post_id: postId,
-        created_on: date.toLocaleString(),
+        created_on: date,
         content: ""
     });
 
