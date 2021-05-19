@@ -22,6 +22,7 @@ export const TagDetail = () => {
 
     useEffect(() => {
         getTags()
+        
     }, [])
 
     useEffect(() => {

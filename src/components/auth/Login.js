@@ -29,6 +29,8 @@ export const Login = () => {
             .then(res => {
                 if ("valid" in res && res.valid) {
                     localStorage.setItem("rare_user_id", res.token)
+                    localStorage.setItem("id", res.id)
+                    localStorage.setItem("admin", res.admin)
                     history.push("/")
                 }
                 else {
