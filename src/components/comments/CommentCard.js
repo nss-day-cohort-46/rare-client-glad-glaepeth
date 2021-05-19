@@ -10,7 +10,7 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
     const { getUsers, users } = useContext(UserContext)
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const postId = useParams()
-    console.log(commentAuthor)
+  
 
 
     useEffect(() => {
