@@ -31,14 +31,23 @@ export const CategoryProvider = (props) => {
 
     //function to get category by ID
     const getCategoryById = (id) => {
-        return fetch(`http://localhost:8000/categories/${id}`)
+        return fetch(`http://localhost:8000/categories/${id}`,{
+            headers: {
+                "Authorization": `token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
             .then(res => res.json())
     }
 
     //function to delete a category
     const deleteCategory = categoryId => {
         return fetch(`http://localhost:8000/categories/${categoryId}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(category)
         })
             .then(getCategories)
     }
