@@ -32,14 +32,21 @@ export const TagsProvider = (props) => {
 
     //function to get tag by ID
     const getTagById = (id) => {
-        return fetch(`http://localhost:8000/tags/${id}`)
+        return fetch(`http://localhost:8000/tags/${id}`,{
+            headers: {
+                "Authorization": `token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
             .then(res => res.json())
     }
 
     //function to delete a tag
     const deleteTag = tagId => {
         return fetch(`http://localhost:8000/tags/${tagId}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": `token ${localStorage.getItem("rare_user_id")}`
+            }
         })
             .then(getTags)
     }
@@ -48,6 +55,7 @@ export const TagsProvider = (props) => {
         return fetch(`http://localhost:8000/tags/${tag.id}`, {
           method: "PUT",
           headers: {
+            "Authorization": `token ${localStorage.getItem("rare_user_id")}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify(tag)

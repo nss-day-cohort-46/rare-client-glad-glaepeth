@@ -20,14 +20,15 @@ export const TagList = () => {
 
     return (
         <>
+            <h1> Tag List </h1>
             <div className="createTagButtonDiv" onClick={() => history.push("tags/create")}>
-                <button className="button createTagButton">Create a Tag</button>
+                <button className="btn btn-primary createTagButton">Create a Tag</button>
             </div>
-            {/* <div className="tags">
+            <div className="tags">
                 {
                     tags.map(tag => <Tag key={tag.id} tag={tag} />)
                 }
-            </div> */}
+            </div>
         </>
     )
 }
