@@ -10,7 +10,7 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
     const { getUsers, users } = useContext(UserContext)
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const postId = useParams()
-    // console.log('postId: ', postId);
+  
 
 
     useEffect(() => {
@@ -37,11 +37,12 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
     }
 
     const currentUser = parseInt(localStorage.getItem("rare_user_id"))
-    const author = users.find(u => parseInt(u.id) === parseInt(commentInstance.author_id))
+    const author = users.find(u => parseInt(u.id) === parseInt(commentInstance.author.id))
+    
 
     let is_user = ""
 
-    if (currentUser === commentInstance?.author_id) {
+    if (currentUser === author.id) {
         is_user = 1
     }
 
@@ -49,7 +50,7 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
         <>
             <section className="comment">
                 <p className="commentContent">{commentInstance?.content}</p>
-                <p className="commentContent">Author: {author?.first_name} {commentAuthor?.last_name}</p>
+                <p className="commentContent">Author: {commentAuthor?.user.first_name} {commentAuthor?.user.last_name}</p>
                 <div className="commentPublicationDate">-{commentInstance?.created_on}</div>
 
                 {is_user ? <button className="btn btn-primary"
