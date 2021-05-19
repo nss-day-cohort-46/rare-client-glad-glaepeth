@@ -37,11 +37,13 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
     }
 
     const currentUser = parseInt(localStorage.getItem("rare_user_id"))
-    const author = users.find(u => parseInt(u.id) === parseInt(commentInstance.author_id))
+    const author = users.find(u => parseInt(u.id) === parseInt(commentInstance.author.id))
+    console.log("author", author)
+    console.log(users)
 
     let is_user = ""
 
-    if (currentUser === commentInstance?.author_id) {
+    if (currentUser === author.id) {
         is_user = 1
     }
 

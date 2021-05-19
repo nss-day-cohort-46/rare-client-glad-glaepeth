@@ -42,7 +42,7 @@ export const CommentList = () => {
             <div className="comments">
                 {
                     commentsSorted.map(commentObject => {
-                        
+                        console.log(commentObject)
                         const author = users.find(u => parseInt(u.id) === parseInt(commentObject.author.id))
 
                         return <CommentCard key={commentObject.id} commentInstance={commentObject} 
