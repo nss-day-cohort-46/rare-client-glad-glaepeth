@@ -9,7 +9,7 @@ export const CategoryProvider = (props) => {
 
     const getCategories = () => {
         return fetch("http://localhost:8000/categories", {
-            headers:{
+            headers: {
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             }
         })
@@ -26,12 +26,12 @@ export const CategoryProvider = (props) => {
             },
             body: JSON.stringify(categoryObj)
         })
-        .then(getCategories)
+            .then(getCategories)
     }
 
     //function to get category by ID
     const getCategoryById = (id) => {
-        return fetch(`http://localhost:8000/categories/${id}`,{
+        return fetch(`http://localhost:8000/categories/${id}`, {
             headers: {
                 "Authorization": `token ${localStorage.getItem("rare_user_id")}`
             }
@@ -44,27 +44,26 @@ export const CategoryProvider = (props) => {
         return fetch(`http://localhost:8000/categories/${categoryId}`, {
             method: "DELETE",
             headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
-            },
-            body: JSON.stringify(category)
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
         })
             .then(getCategories)
     }
 
     const updateCategory = category => {
         return fetch(`http://localhost:8000/categories/${category.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
-          },
-          body: JSON.stringify(category)
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(category)
         })
-          .then(getCategories)
-      }
+            .then(getCategories)
+    }
 
-    const [ searchTerms, setSearchTerms ] = useState("")
+    const [searchTerms, setSearchTerms] = useState("")
 
     /*
         You return a context provider which has the
