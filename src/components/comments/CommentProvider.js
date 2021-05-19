@@ -8,8 +8,12 @@ export const CommentProvider = (props) => {
     const [comments, setComments] = useState([])
 
     const getComments = () => {
-        return fetch("http://localhost:8000/comments")
-        .then(res => res.json())
+        return fetch("http://localhost:8000/comments", {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
+            .then(res => res.json())
         .then(setComments)
     }
 
@@ -17,7 +21,8 @@ export const CommentProvider = (props) => {
         return fetch("http://localhost:8000/comments", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             },
             body: JSON.stringify(commentObj)
         })
@@ -26,15 +31,23 @@ export const CommentProvider = (props) => {
 
     //function to get comment by ID
     const getCommentById = (id) => {
-        return fetch(`http://localhost:8000/comments/${id}`)
+        return fetch(`http://localhost:8000/comments/${id}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
             .then(res => res.json())
     }
 
     //function to delete a comment
     const deleteComment = commentId => {
         return fetch(`http://localhost:8000/comments/${commentId}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
         })
+            .then(res => res.json())
             .then(getComments)
     }
 
@@ -42,7 +55,8 @@ export const CommentProvider = (props) => {
         return fetch(`http://localhost:8000/comments/${comment.id}`, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
           },
           body: JSON.stringify(comment)
         })
