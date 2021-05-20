@@ -105,13 +105,12 @@ export const PostDetail = () => {
                 <div className="postContent">Content: {post?.content}</div>
 
 
-                { is_user ? <button className="btn btn-primary"
-                
+                { is_user ? <button className="btn btn-primary"                
                     onClick={handleEdit}>
                     Edit
                 </button> : "" }
-                { is_user ? <button className="btn btn-primary"
-                    
+
+                { is_user ? <button className="btn btn-primary"                    
                     onClick={handleDelete}>
                     Delete
                 </button> : "" }

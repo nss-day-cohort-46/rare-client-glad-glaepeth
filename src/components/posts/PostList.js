@@ -89,9 +89,9 @@ export const PostList = () => {
                 {
                     postsSorted.map(postObject => {
                       
-                        const author = users.find(u => parseInt(u.id) === parseInt(postObject.user_id))
-                        const category = categories.find(c => parseInt(c.id) === parseInt(postObject.category_id))
-
+                        const author = users.find(u => parseInt(u.id) === parseInt(postObject.user.user.id))
+                        const category = categories.find(c => parseInt(c.id) === parseInt(postObject.category.id))
+                        debugger
                         return <PostCard key={postObject.id} postInstance={postObject} 
                         postAuthor = {author}
                         postCategory = {category}
