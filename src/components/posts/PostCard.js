@@ -12,6 +12,6 @@ export const PostCard = ({ postInstance, postAuthor, postCategory }) => (
           </Link>
         </h3>
         <div className="postPublicationDate">Category: { postCategory?.label }</div>
-        <div className="postPublicationAuthor">Author: { postAuthor?.first_name } { postAuthor?.last_name }</div>
+        <div className="postPublicationAuthor">Author: { postAuthor?.id.first_name } { postAuthor?.last_name }</div>
     </section>
 )
