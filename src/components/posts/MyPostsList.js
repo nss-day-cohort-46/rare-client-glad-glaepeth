@@ -17,7 +17,7 @@ export const MyPostsList = () => {
     const [filteredPosts, setFiltered] = useState([])
     const history = useHistory()
 
-    const rareUser = parseInt(localStorage.getItem('rare_user_id'))
+    const rareUser = parseInt(localStorage.getItem("id"))
     
     
 
@@ -29,7 +29,7 @@ export const MyPostsList = () => {
         getCategories()
     }, [])
 
-
+    console.log(filteredPosts)
     //search user posts
     useEffect(() => {
         if (searchTerms !== "") {
@@ -41,7 +41,7 @@ export const MyPostsList = () => {
             setFiltered(posts)
         }
     }, [searchTerms, posts])
-
+    
     return (
         <>
             <h1>My Posts</h1>
@@ -54,8 +54,8 @@ export const MyPostsList = () => {
                     filteredPosts.map(postObject => {
 
 
-                        const author = users.find(u => parseInt(u.id) === parseInt(postObject.user_id))
-                        const category = categories.find(c => parseInt(c.id) === parseInt(postObject.category_id))
+                        const author = users.find(u => parseInt(u.id) === parseInt(postObject.user.user.id))
+                        const category = categories.find(c => parseInt(c.id) === parseInt(postObject.category.id))
                         
 
                         return <PostCard key={postObject.id} postInstance={postObject}
