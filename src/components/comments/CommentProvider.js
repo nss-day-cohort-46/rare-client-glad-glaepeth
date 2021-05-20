@@ -47,7 +47,6 @@ export const CommentProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             }
         })
-            .then(res => res.json())
             .then(getComments)
     }
 
