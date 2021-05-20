@@ -17,10 +17,12 @@ export const PostForm = () => {
     //Define the intial state of the Post with useState()
     const [post, setPost] = useState({
         user_id: parseInt(localStorage.getItem("rare_user_id")),
-        category_id: "",
+        category: "",
         title: "",
-        publication_date: date.toLocaleString(),
-        content: ""      
+        publication_date: date,
+        content: "",
+        image_url: "",
+        approved: true      
     });
 
 
@@ -103,8 +105,8 @@ export const PostForm = () => {
             </fieldset>
             <fieldset className="form">
                 <div className="form-group">
-                    <label htmlFor="category_id">Category: </label>
-                    <input type="text" id="category_id" onChange={handleControlledInputChange} className="form-control" placeholder="Category" value={post.category_id}/>
+                    <label htmlFor="category">Category: </label>
+                    <input type="text" id="category" onChange={handleControlledInputChange} className="form-control" placeholder="Category" value={post.category}/>
                 </div>
             </fieldset>
             {/* <fieldset className="form">
