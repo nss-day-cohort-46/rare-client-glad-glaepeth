@@ -110,7 +110,7 @@ export const PostDetail = () => {
                 </button> : "" }
 
                 { is_user ? <button className="btn btn-primary"                    
-                    onClick={handleDelete}>
+                    onClick={confirmDelete}>
                     Delete
                 </button> : "" }
 
