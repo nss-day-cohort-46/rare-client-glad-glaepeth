@@ -22,12 +22,12 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
         setDeleteModalOpen(true)
     }
 
-    // const handleUpdate = () => {
-    //     updateComment(commentInstance)
-    //     .then(() => {
-    //         history.push(`${postId.postId}`)
-    //     })
-    // }
+    const handleUpdate = () => {
+        updateComment(commentInstance)
+        .then(() => {
+            history.push(`${postId.postId}`)
+        })
+    }
 
     const handleDelete = () => {
         deleteComment(commentInstance.id)
@@ -36,7 +36,7 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
             })
     }
 
-    const currentUser = parseInt(localStorage.getItem("rare_user_id"))
+    const currentUser = parseInt(localStorage.getItem("id"))
     const author = users.find(u => parseInt(u.id) === parseInt(commentInstance.author.id))
     
 
@@ -45,7 +45,7 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
     if (currentUser === author.id) {
         is_user = 1
     }
-
+    
     return (
         <>
             <section className="comment">
@@ -58,10 +58,10 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
                     Delete
                     </button> : ""}
 
-                {/* {commentInstance.id ? <button className="btn btn-primary"
+                {is_user ? <button className="btn btn-primary"
                     onClick={handleUpdate}>
                     Edit
-            </button> : "" } */}
+            </button> : "" }
 
             </section>
 
