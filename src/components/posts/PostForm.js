@@ -1,6 +1,7 @@
 //import statements
 import React, { useContext, useEffect, useState } from "react"
 import { useHistory, useParams } from 'react-router-dom';
+import { CategoryContext } from "../category/CategoryProvider";
 import { PostContext } from "../posts/PostProvider";
 
 
@@ -8,6 +9,7 @@ import { PostContext } from "../posts/PostProvider";
 export const PostForm = () => {
     
     const { addPost, getPostById, updatePost, getPosts } = useContext(PostContext)
+    const { categories, getCategories } = useContext(CategoryContext)
     const { postId } = useParams()
     const [ isLoading, setIsLoading ] = useState(true);
     const history = useHistory();
@@ -69,6 +71,9 @@ export const PostForm = () => {
     }
 
     useEffect(() => {
+        //get all Categories
+        getCategories()
+        
         //get all Posts
         getPosts().then(() => {
 
@@ -105,8 +110,14 @@ export const PostForm = () => {
             </fieldset>
             <fieldset className="form">
                 <div className="form-group">
-                    <label htmlFor="category">Category: </label>
-                    <input type="text" id="category" onChange={handleControlledInputChange} className="form-control" placeholder="Category" value={post.category}/>
+                    <select onChange={handleControlledInputChange} id="category" htmlFor="category">Category:
+                        <option value="0">Select a Category</option>
+                        {
+                            categories.map(category => (
+                                <option key={category.id} value={category.id}>{category.label}</option>
+                            ))
+                        }
+                    </select>
                 </div>
             </fieldset>
             {/* <fieldset className="form">
