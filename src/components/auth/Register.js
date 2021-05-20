@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import "./Auth.css"
 
@@ -11,6 +11,47 @@ export const Register = (props) => {
     const verifyPassword = useRef()
     const passwordDialog = useRef()
     const history = useHistory()
+
+    const [imageUrl, setImageUrl] = useState(null)
+    const [imageAlt, setImageAlt] = useState(null)
+
+    const handleImageUpload = () => {
+        const { files } = document.querySelector('input[type="file"]')
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        // replace this with your upload preset name
+        formData.append('upload_preset', 'RareMedia');
+        const options = {
+            method: 'POST',
+            body: formData,
+        };
+
+        // replace cloudname with your Cloudinary cloud_name
+        return fetch('https://api.cloudinary.com/v1_1/nateromad/image/upload', options)
+            .then(res => res.json())
+            .then(res => {
+                setImageUrl(res.secure_url)
+                setImageAlt(res.original_filename)
+            })
+            .catch(err => console.log(err));
+    }
+
+    const openWidget = () => {
+        // create the widget
+        const widget = window.cloudinary.createUploadWidget(
+            {
+                cloudName: 'nateromad',
+                uploadPreset: 'RareMedia',
+            },
+            (error, result) => {
+                if (result.event === 'success') {
+                    setImageUrl(result.info.secure_url)
+                    setImageAlt(result.info.original_filename)
+                }
+            }
+        );
+        widget.open(); // open up the widget after creation
+    };
 
     const handleRegister = (e) => {
         e.preventDefault()
@@ -82,6 +123,24 @@ export const Register = (props) => {
             </form>
             <section className="link--register">
                 Already registered? <Link to="/login">Login</Link>
+            </section>
+            <section className="App">
+                <section className="left-side">
+                    <form>
+                        <div className="form-group">
+                            <input type="file" />
+                        </div>
+
+                        <button type="button" className="btn nes-btn is-primary" onClick={handleImageUpload}>Submit</button>
+                        <button type="button" className="btn widget-btn nes-btn is-primary" onClick={openWidget}>Upload Via Widget</button>
+                    </form>
+                </section>
+                <section className="right-side">
+                    <p>The resulting image will be displayed here</p>
+                    {imageUrl && (
+                        <img src={imageUrl} alt={imageAlt} className="displayed-image" />
+                    )}
+                </section>
             </section>
         </main>
     )
