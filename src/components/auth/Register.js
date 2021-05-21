@@ -16,7 +16,7 @@ export const Register = (props) => {
     const [imageUrl, setImageUrl] = useState(null)
     const [imageAlt, setImageAlt] = useState(null)
 
-    const handleImageUpload = () => {
+    const handleImageUpload = async () => {
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
         formData.append('file', files[0]);
@@ -26,15 +26,18 @@ export const Register = (props) => {
             method: 'POST',
             body: formData,
         };
-
-        // replace cloudname with your Cloudinary cloud_name
-        return fetch('https://api.cloudinary.com/v1_1/nateromad/image/upload', options)
-            .then(res => res.json())
-            .then(res => {
-                setImageUrl(res.secure_url)
-                setImageAlt(res.original_filename)
-            })
-            .catch(err => console.log(err));
+        if (!imageUrl) {
+            // replace cloudname with your Cloudinary cloud_name
+            return fetch('https://api.cloudinary.com/v1_1/nateromad/image/upload', options)
+                .then(res => res.json())
+                .then(res => {
+                    // console.log('res: ', res);
+                    setImageUrl(res.secure_url)
+                    setImageAlt(res.original_filename)
+                    return res.secure_url
+                })
+                .catch(err => console.log(err));
+        }
     }
 
     const openWidget = () => {
@@ -56,36 +59,38 @@ export const Register = (props) => {
 
     const handleRegister = (e) => {
         e.preventDefault()
-
-        if (password.current.value === verifyPassword.current.value) {
-            const newUser = {
-                "username": email.current.value,
-                "first_name": firstName.current.value,
-                "last_name": lastName.current.value,
-                "email": email.current.value,
-                "password": password.current.value,
-                "profile_image_url": imageUrl
-            }
-
-            return fetch("http://127.0.0.1:8000/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify(newUser)
-            })
-                .then(res => res.json())
-                .then(res => {
-                    // console.log('res: ', res);
-                    if ("valid" in res && res.valid) {
-                        localStorage.setItem("rare_user_id", res.token)
-                        history.push("/")
+        handleImageUpload()
+            .then(( url ) => {
+                if (password.current.value === verifyPassword.current.value) {
+                    const newUser = {
+                        "username": email.current.value,
+                        "first_name": firstName.current.value,
+                        "last_name": lastName.current.value,
+                        "email": email.current.value,
+                        "password": password.current.value,
+                        "profile_image_url": imageUrl || url
                     }
-                })
-        } else {
-            passwordDialog.current.showModal()
-        }
+
+                    return fetch("http://127.0.0.1:8000/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify(newUser)
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            // console.log('res: ', res);
+                            if ("valid" in res && res.valid) {
+                                localStorage.setItem("rare_user_id", res.token)
+                                history.push("/")
+                            }
+                        })
+                } else {
+                    passwordDialog.current.showModal()
+                }
+            })
     }
 
     return (
@@ -134,7 +139,7 @@ export const Register = (props) => {
                             <input type="file" />
                         </div>
 
-                        <button type="button" className="btn" onClick={handleImageUpload}>Submit</button>
+                        {/* <button type="button" className="btn" onClick={handleImageUpload}>Submit</button> */}
                         <button type="button" className="btn widget-btn" onClick={openWidget}>Upload Via Widget</button>
                     </form>
                 </section>
