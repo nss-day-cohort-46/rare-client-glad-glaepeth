@@ -29,7 +29,6 @@ export const MyPostsList = () => {
         getCategories()
     }, [])
 
-    console.log(filteredPosts)
     //search user posts
     useEffect(() => {
         if (searchTerms !== "") {

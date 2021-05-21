@@ -102,6 +102,8 @@ export const PostDetail = () => {
                 <div className="postCategory">Category: {category?.label}</div>
                 <div className="postPublicationDate">Publication Date: {post?.publication_date}</div>
                 <div className="postContent">Content: {post?.content}</div>
+                <div className="postTags">Tags: {post.tags?.map(obj => obj.label).join(", ") }</div>
+
 
 
                 { is_user ? <button className="btn btn-primary"                
