@@ -1,6 +1,7 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Link, useHistory } from "react-router-dom"
-import "./Auth.css"
+// import "./Auth.css"
+import "./App.css"
 
 export const Register = (props) => {
     const firstName = useRef()
@@ -12,37 +13,84 @@ export const Register = (props) => {
     const passwordDialog = useRef()
     const history = useHistory()
 
-    const handleRegister = (e) => {
-        e.preventDefault()
+    const [imageUrl, setImageUrl] = useState(null)
+    const [imageAlt, setImageAlt] = useState(null)
 
-        if (password.current.value === verifyPassword.current.value) {
-            const newUser = {
-                "username": email.current.value,
-                "first_name": firstName.current.value,
-                "last_name": lastName.current.value,
-                "email": email.current.value,
-                "password": password.current.value
-            }
-
-            return fetch("http://127.0.0.1:8000/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify(newUser)
-            })
+    const handleImageUpload = async () => {
+        const { files } = document.querySelector('input[type="file"]')
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        // replace this with your upload preset name
+        formData.append('upload_preset', 'RareMedia');
+        const options = {
+            method: 'POST',
+            body: formData,
+        };
+        if (!imageUrl) {
+            // replace cloudname with your Cloudinary cloud_name
+            return fetch('https://api.cloudinary.com/v1_1/nateromad/image/upload', options)
                 .then(res => res.json())
                 .then(res => {
                     // console.log('res: ', res);
-                    if ("valid" in res && res.valid) {
-                        localStorage.setItem("rare_user_id", res.token)
-                        history.push("/")
-                    }
+                    setImageUrl(res.secure_url)
+                    setImageAlt(res.original_filename)
+                    return res.secure_url
                 })
-        } else {
-            passwordDialog.current.showModal()
+                .catch(err => console.log(err));
         }
+    }
+
+    const openWidget = () => {
+        // create the widget
+        const widget = window.cloudinary.createUploadWidget(
+            {
+                cloudName: 'nateromad',
+                uploadPreset: 'RareMedia',
+            },
+            (error, result) => {
+                if (result.event === 'success') {
+                    setImageUrl(result.info.secure_url)
+                    setImageAlt(result.info.original_filename)
+                }
+            }
+        );
+        widget.open(); // open up the widget after creation
+    };
+
+    const handleRegister = (e) => {
+        e.preventDefault()
+        handleImageUpload()
+            .then(( url ) => {
+                if (password.current.value === verifyPassword.current.value) {
+                    const newUser = {
+                        "username": email.current.value,
+                        "first_name": firstName.current.value,
+                        "last_name": lastName.current.value,
+                        "email": email.current.value,
+                        "password": password.current.value,
+                        "profile_image_url": imageUrl || url
+                    }
+
+                    return fetch("http://127.0.0.1:8000/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify(newUser)
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            // console.log('res: ', res);
+                            if ("valid" in res && res.valid) {
+                                localStorage.setItem("rare_user_id", res.token)
+                                history.push("/")
+                            }
+                        })
+                } else {
+                    passwordDialog.current.showModal()
+                }
+            })
     }
 
     return (
@@ -83,6 +131,24 @@ export const Register = (props) => {
             </form>
             <section className="link--register">
                 Already registered? <Link to="/login">Login</Link>
+            </section>
+            <section className="App">
+                <section className="left-side">
+                    <form>
+                        <div className="form-group">
+                            <input type="file" />
+                        </div>
+
+                        {/* <button type="button" className="btn" onClick={handleImageUpload}>Submit</button> */}
+                        <button type="button" className="btn widget-btn" onClick={openWidget}>Upload Via Widget</button>
+                    </form>
+                </section>
+                <section className="right-side">
+                    <p>The resulting image will be displayed here</p>
+                    {imageUrl && (
+                        <img src={imageUrl} alt={imageAlt} className="displayed-image" />
+                    )}
+                </section>
             </section>
         </main>
     )
