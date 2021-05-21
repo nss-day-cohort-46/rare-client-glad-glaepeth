@@ -23,7 +23,7 @@ export const PostForm = () => {
     //Define the intial state of the Post with useState()
     const [post, setPost] = useState({
         user_id: parseInt(localStorage.getItem("id")),
-        category: 0,
+        category: "",
         title: "",
         publication_date: date,
         content: "",
@@ -52,8 +52,7 @@ export const PostForm = () => {
         
         // update state
         setPost(newPost)
-        console.log("np", newPost)   
-        console.log("sv", selectedVal)   
+        
     }
 
     //handle save function
@@ -107,11 +106,16 @@ export const PostForm = () => {
             getPostById(postId)
             //then setPost to that found Post
             .then(Post => {
-                
                 setPost(Post)
+            
+                
+                
+                post.category = Post.category.id
+                
                 
                 setIsLoading(false)
             })
+            
         } else {
             // else there is no data
             setIsLoading(false)
@@ -119,7 +123,7 @@ export const PostForm = () => {
         })
     }, [])
 
-    console.log(post)
+    
 
     //Return this HTML
     return (
