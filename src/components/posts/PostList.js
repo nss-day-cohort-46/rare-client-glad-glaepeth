@@ -43,7 +43,7 @@ export const PostList = () => {
       if (searchTerms !== "") {
         console.log(searchTerms)
         // If the search field is not blank, display matching posts
-        const subset = posts.filter(post => post.title.toLowerCase().includes(searchTerms.toLowerCase))
+        const subset = posts.filter(post => post.title.toLowerCase().includes(searchTerms.toLowerCase()))
         setFiltered(subset)
         console.log("!", subset)
       } else {
