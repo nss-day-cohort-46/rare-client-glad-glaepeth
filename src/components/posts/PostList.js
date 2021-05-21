@@ -37,15 +37,15 @@ export const PostList = () => {
       getTags()
       getPostTags().then(setPostTags)
     }, [])
-    console.log(posts)
+    // console.log(posts)
 
     useEffect(() => {
       if (searchTerms !== "") {
-        console.log(searchTerms)
+        // console.log(searchTerms)
         // If the search field is not blank, display matching posts
         const subset = posts.filter(post => post.title.toLowerCase().includes(searchTerms.toLowerCase()))
         setFiltered(subset)
-        console.log("!", subset)
+        // console.log("!", subset)
       } else {
         // If the search field is blank, display all posts
         setFiltered(posts)
