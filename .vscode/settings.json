@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "db",
+            "database": "/Users/calebjames/workspace/python/rare-api-glad-glaepeth/db.sqlite3"
+        }
+    ]
+}
