@@ -23,7 +23,7 @@ export const PostForm = () => {
     //Define the intial state of the Post with useState()
     const [post, setPost] = useState({
         user_id: parseInt(localStorage.getItem("id")),
-        category: "",
+        category: 0,
         title: "",
         publication_date: date,
         content: "",
@@ -42,12 +42,18 @@ export const PostForm = () => {
         //the value of the event
         let selectedVal = event.target.value
 
+        if (event.target.id.includes("Id")) {
+            selectedVal = parseInt(selectedVal)
+          }
+
         /* Set the property to the new value
         using object bracket notation. */
         newPost[event.target.id] = selectedVal
         
         // update state
-        setPost(newPost)   
+        setPost(newPost)
+        console.log("np", newPost)   
+        console.log("sv", selectedVal)   
     }
 
     //handle save function
@@ -113,6 +119,8 @@ export const PostForm = () => {
         })
     }, [])
 
+    console.log(post)
+
     //Return this HTML
     return (
         <>
@@ -134,7 +142,7 @@ export const PostForm = () => {
                         <option value="0" >Categories</option>
                         {
                             categories.map(category => (
-                                <option key={category.id} id={category.id} value={category.id}>{category.label}</option>
+                                <option key={category.id} id={category.id.id} value={category.id}>{category.label}</option>
                             ))
                         }
                     </select>
