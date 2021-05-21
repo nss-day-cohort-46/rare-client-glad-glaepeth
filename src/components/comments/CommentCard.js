@@ -42,7 +42,7 @@ export const CommentCard = ({ commentInstance, commentAuthor }) => {
 
     let is_user = ""
 
-    if (currentUser === author.id) {
+    if (currentUser === author?.id) {
         is_user = 1
     }
     

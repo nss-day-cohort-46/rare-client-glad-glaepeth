@@ -63,6 +63,8 @@ export const PostForm = () => {
        //if in the edit page, editPost() then navigate to inspections 
        if (postId) {
         post.tags = post.tags.map(t => t.id)
+        const catId = parseInt(post.category.id)
+        post.category = catId
         updatePost(post)
         .then(history.goBack)
         
@@ -91,7 +93,7 @@ export const PostForm = () => {
 
 
 
-
+    //Render data on page load
     useEffect(() => {
         //get all Categories
         getCategories()
@@ -106,11 +108,14 @@ export const PostForm = () => {
             getPostById(postId)
             //then setPost to that found Post
             .then(Post => {
+                
+                
+                
                 setPost(Post)
             
                 
                 
-                post.category = Post.category.id
+                // post.category = Post.category.id
                 
                 
                 setIsLoading(false)
@@ -123,7 +128,6 @@ export const PostForm = () => {
         })
     }, [])
 
-    
 
     //Return this HTML
     return (
