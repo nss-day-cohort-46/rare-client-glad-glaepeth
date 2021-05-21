@@ -11,7 +11,6 @@ export const PostSearch = () => {
       <input type="text"
         className="input--wide search"
         onKeyUp={(event) => setSearchTerms(event.target.value)}
-        
         placeholder="Posts... " />
     </>
   )
