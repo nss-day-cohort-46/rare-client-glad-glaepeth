@@ -101,7 +101,7 @@ export const PostForm = () => {
             getPostById(postId)
             //then setPost to that found Post
             .then(Post => {
-                Post.category = Post.category.label
+                
                 setPost(Post)
                 
                 setIsLoading(false)
@@ -128,14 +128,19 @@ export const PostForm = () => {
             </fieldset>
             <fieldset className="form">
                 <div className="form-group">
-                    <select onChange={handleControlledInputChange} id="category" htmlFor="category">Category:
-                        <option value="0">Select a Category</option>
+                    
+                    
+                    <select value={post?.category?.id} id="category" className="form-control" onChange={handleControlledInputChange} htmlFor="category">Category:
+                        <option value="0" >Categories</option>
                         {
                             categories.map(category => (
-                                <option key={category.id} id={category.id} selected={category} value={category.id}>{post.category}</option>
+                                <option key={category.id} id={category.id} value={category.id}>{category.label}</option>
                             ))
                         }
                     </select>
+                    
+
+
                 </div>
             </fieldset>
             {/* <fieldset className="form">
