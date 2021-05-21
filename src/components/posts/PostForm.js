@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from "react"
 import { useHistory, useParams } from 'react-router-dom';
 import { CategoryContext } from "../category/CategoryProvider";
 import { PostContext } from "../posts/PostProvider";
+import { Multiselect } from 'multiselect-react-dropdown'
+import { TagContext } from "../tags/TagsProvider";
 
 
 //export function to display form for new post
@@ -10,21 +12,24 @@ export const PostForm = () => {
     
     const { addPost, getPostById, updatePost, getPosts } = useContext(PostContext)
     const { categories, getCategories } = useContext(CategoryContext)
+    const { tags, getTags } = useContext(TagContext)
     const { postId } = useParams()
     const [ isLoading, setIsLoading ] = useState(true);
     const history = useHistory();
     const date = new Date
-
+    
+    
 
     //Define the intial state of the Post with useState()
     const [post, setPost] = useState({
-        user_id: parseInt(localStorage.getItem("rare_user_id")),
+        user_id: parseInt(localStorage.getItem("id")),
         category: "",
         title: "",
         publication_date: date,
         content: "",
         image_url: "",
-        approved: true      
+        approved: true,
+        tags: []      
     });
 
 
@@ -52,12 +57,14 @@ export const PostForm = () => {
         
        //if in the edit page, editPost() then navigate to inspections 
        if (postId) {
+        post.tags = post.tags.map(t => t.id)
         updatePost(post)
         .then(history.goBack)
         
         } else {
        
         //create a new Post then move to post details
+        post.tags = post.tags.map(t => t.id)
         addPost(post)
         .then( p => {
             p = p
@@ -65,14 +72,25 @@ export const PostForm = () => {
         })   
       
     }}
-    //handle save function
+    //handle cancel function
     const handleClickCancel = () => {
         history.push(`/posts/detail/${postId}`)
     }
 
+    const handleControlledSelect = (e) => {
+        let newPost = {...post}
+        newPost.tags = e
+        
+        setPost(newPost)
+    }
+
+
+
+
     useEffect(() => {
         //get all Categories
         getCategories()
+        getTags()
         
         //get all Posts
         getPosts().then(() => {
@@ -83,6 +101,7 @@ export const PostForm = () => {
             getPostById(postId)
             //then setPost to that found Post
             .then(Post => {
+                Post.category = Post.category.label
                 setPost(Post)
                 
                 setIsLoading(false)
@@ -93,7 +112,6 @@ export const PostForm = () => {
         }
         })
     }, [])
-
 
     //Return this HTML
     return (
@@ -114,7 +132,7 @@ export const PostForm = () => {
                         <option value="0">Select a Category</option>
                         {
                             categories.map(category => (
-                                <option key={category.id} value={category.id}>{category.label}</option>
+                                <option key={category.id} id={category.id} selected={category} value={category.id}>{post.category}</option>
                             ))
                         }
                     </select>
@@ -132,6 +150,16 @@ export const PostForm = () => {
                     <input type="text" id="content" onChange={handleControlledInputChange} className="form-control" placeholder="Content" value={post.content}/>
                 </div>
             </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="tags">Tags: </label>
+                    <Multiselect 
+                        id="tag" options={tags} selectedValues={post.tags} displayValue="label" 
+                        onSelect={ handleControlledSelect } onRemove={ handleControlledSelect }>
+                    </Multiselect>
+                    
+                </div>
+            </fieldset> 
             </div>
             
             
